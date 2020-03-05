@@ -103,7 +103,7 @@ public class FirstFragment extends Fragment {
         parray.remove(0);
 
         adapter = new RecycleAdapter(parray, getActivity().getApplicationContext());
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycle_view);
         recyclerView.setLayoutManager(manager);
