@@ -14,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,9 @@ import retrofit2.Response;
 
 public class FirstFragment extends Fragment {
 
-    Button btn_go;
-    private NavController navController;
+    TextView txtWeatherCondition, txtPerdictbility, txtHumidity, txtMax, txtTemp, txtMin;
+    ImageView imgCurrent;
+    //    private NavController navController;
     ArrayList<Weather_> parray;
     RecycleAdapter adapter;
 
@@ -45,6 +50,14 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtWeatherCondition = (TextView) getView().findViewById(R.id.txtWeatherCondition);
+        txtPerdictbility = (TextView) getView().findViewById(R.id.txtPerdictbility);
+        txtHumidity = (TextView) getView().findViewById(R.id.txtHumidity);
+        txtMax = (TextView) getView().findViewById(R.id.txtMax);
+        txtTemp = (TextView) getView().findViewById(R.id.txtTemp);
+        txtMin = (TextView) getView().findViewById(R.id.txtMin);
+        imgCurrent = (ImageView) getView().findViewById(R.id.imgCurrent);
+
         DataServices service = RetrofitClientInstance.getRetrofitInstance().create(DataServices.class);
 
 
@@ -57,6 +70,8 @@ public class FirstFragment extends Fragment {
                 try {
                     parray = new ArrayList<>(weather.getWeather());
                     generateView(parray, view);
+
+
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -70,6 +85,20 @@ public class FirstFragment extends Fragment {
     }
 
     public void generateView(ArrayList<Weather_> parray, View view) {
+
+        Weather_ weather = parray.get(0);
+
+//        parray.get(0).getWeather_state_abbr()
+
+        String uri = "https://www.metaweather.com/static/img/weather/png/64/" + weather.getWeather_state_abbr() + ".png";
+        Picasso.get().load(uri).into(imgCurrent);
+
+        txtWeatherCondition.setText(weather.getWeather_state_name());
+        txtMin.setText(weather.getMin_temp());
+        txtTemp.setText(weather.getThe_temp());
+        txtMax.setText(weather.getMax_temp());
+        txtHumidity.setText(weather.getHumidity()+"%");
+        txtPerdictbility.setText(weather.getPredictability()+"%");
 
         parray.remove(0);
 
