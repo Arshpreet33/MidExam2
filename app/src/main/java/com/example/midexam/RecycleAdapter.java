@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,8 +48,28 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         String uri = "https://www.metaweather.com/static/img/weather/png/64/" + arrypro.get(position).getWeather_state_abbr() + ".png";
 
         Picasso.get().load(uri).into(holder.pkimg);
+
+        String dateStr = arrypro.get(position).getApplicable_date();
+        String day = getDay(arrypro.get(position).getApplicable_date());
+        holder.pkname.setText(day);
 //        holder.pkname.setText(arrypro.get(position).getName());
 
+    }
+
+    public String getDay(String d) {
+        try {
+
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(d);
+            SimpleDateFormat format2 = new SimpleDateFormat("EEEE");
+            return format2.format(date);
+//        String dayOfMonth = (String) DateFormat.format("EEEE", date);
+//        return day
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
