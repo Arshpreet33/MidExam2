@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +48,7 @@ public class FirstFragment extends Fragment {
         DataServices service = RetrofitClientInstance.getRetrofitInstance().create(DataServices.class);
 
 
-        Call<Weather> call =service.getCompleteWeather();
+        Call<Weather> call = service.getCompleteWeather();
         call.enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
@@ -55,9 +56,8 @@ public class FirstFragment extends Fragment {
 
                 try {
                     parray = new ArrayList<>(weather.getWeather());
-                    generateView(parray,view);
-                }
-                catch (NullPointerException e){
+                    generateView(parray, view);
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
             }
@@ -69,10 +69,12 @@ public class FirstFragment extends Fragment {
         });
     }
 
-    public void generateView(ArrayList<Weather_> pary, View view){
+    public void generateView(ArrayList<Weather_> parray, View view) {
 
-        adapter = new RecycleAdapter(pary,getActivity().getApplicationContext());
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        parray.remove(0);
+
+        adapter = new RecycleAdapter(parray, getActivity().getApplicationContext());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycle_view);
         recyclerView.setLayoutManager(manager);

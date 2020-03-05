@@ -14,30 +14,36 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder>{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
 
 
     private ArrayList<Weather_> arrypro;
     private Context context;
     private View.OnClickListener itemlistener;
 
-    public RecycleAdapter(ArrayList<Weather_> arrypro,Context context){
+    public RecycleAdapter(ArrayList<Weather_> arrypro, Context context) {
         this.arrypro = arrypro;
         this.context = context;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleitem,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleitem, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        String uri = "https://www.metaweather.com/static/img/weather/png/64/" + arrypro.get(position).getWeather_state_abbr() + ".png";
 
-//        Picasso.get().load(arrypro.get(position).getImage()).into(holder.pkimg);
+        Picasso.get().load(uri).into(holder.pkimg);
 //        holder.pkname.setText(arrypro.get(position).getName());
 
     }
@@ -48,13 +54,12 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView pkimg;
         TextView pkname;
 
-        public ViewHolder(View itemview)
-        {
+        public ViewHolder(View itemview) {
             super(itemview);
 
             pkimg = itemview.findViewById(R.id.img_pk);
